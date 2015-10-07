@@ -7614,7 +7614,7 @@ thumb1_legitimate_address_p (machine_mode mode, rtx x, int strict_p)
   /* This is PC relative data before arm_reorg runs.  */
   else if (GET_MODE_SIZE (mode) >= 4 && CONSTANT_P (x)
 	   && GET_CODE (x) == SYMBOL_REF
-           && CONSTANT_POOL_ADDRESS_P (x) && !flag_pic)
+           && CONSTANT_POOL_ADDRESS_P (x) && !flag_pic && !arm_disable_literal_pool)
     return 1;
 
   /* This is PC relative data after arm_reorg runs.  */
@@ -7682,6 +7682,7 @@ thumb1_legitimate_address_p (machine_mode mode, rtx x, int strict_p)
 	   && GET_MODE_SIZE (mode) == 4
 	   && GET_CODE (x) == SYMBOL_REF
 	   && CONSTANT_POOL_ADDRESS_P (x)
+	   && !arm_disable_literal_pool
 	   && ! (flag_pic
 		 && symbol_mentioned_p (get_pool_constant (x))
 		 && ! pcrel_constant_p (get_pool_constant (x))))
